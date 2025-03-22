@@ -1,0 +1,10 @@
+2025-03-22T16:29:43.772Z - error: operator does not exist: date - bigint
+    at C:\Users\jonti\Documents\ActivityTrackerApp\node_modules\pg-pool\index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at Function.checkAchievements (C:\Users\jonti\Documents\ActivityTrackerApp\models\achievement.js:117:26)
+    at Object.<anonymous>.exports.createLog (C:\Users\jonti\Documents\ActivityTrackerApp\controllers\logController.js:66:29)
+2025-03-22T16:29:43.939Z - error: operator does not exist: date - bigint
+    at C:\Users\jonti\Documents\ActivityTrackerApp\node_modules\pg-pool\index.js:45:11
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at Function.checkAchievements (C:\Users\jonti\Documents\ActivityTrackerApp\models\achievement.js:117:26)
+    at Object.<anonymous>.exports.checkAchievements (C:\Users\jonti\Documents\ActivityTrackerApp\controllers\achievementController.js:61:29)
