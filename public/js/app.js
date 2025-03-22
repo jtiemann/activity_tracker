@@ -78,6 +78,8 @@ document.addEventListener('DOMContentLoaded', function() {
         currentActivity = activities.find(a => a.activity_type_id === selectedId);
         if (currentActivity) {
             updateUIForActivity(currentActivity);
+            // Load previous entry as default
+            loadPreviousEntry(currentActivity.activity_type_id, currentUser.user_id);
             loadLogs();
             loadStats();
             // Update chart activity if charts initialized
@@ -298,6 +300,30 @@ document.addEventListener('DOMContentLoaded', function() {
         monthUnit.textContent = activity.unit;
         yearUnit.textContent = activity.unit;
     }
+    // Load previous entry for an activity
+    async function loadPreviousEntry(activityId, userId) {
+        try {
+            const response = await fetch(`/api/logs/${userId}/${activityId}?limit=1`, {
+                headers: {
+                    'Authorization': `Bearer ${currentUser.token}`
+                }
+            });
+            
+            if (!response.ok) throw new Error('Failed to load previous log');
+            
+            const logs = await response.json();
+            
+            // If there's at least one log entry, use its count as the default
+            if (logs && logs.length > 0) {
+                countInput.value = logs[0].count;
+                console.log(`Set default count to ${logs[0].count} from previous log`);
+            }
+        } catch (error) {
+            console.error('Error loading previous entry:', error);
+            // Don't change the input if there's an error
+        }
+    }
+    
     
     // Log an activity
     async function logActivity() {

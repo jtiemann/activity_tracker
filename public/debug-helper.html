@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart Debug Helper</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+        h1 { color: #4361ee; }
+        button { 
+            background-color: #4361ee; 
+            color: white; 
+            border: none; 
+            padding: 10px 15px; 
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background-color: #3a56d4; }
+        pre { 
+            background-color: #f5f5f5; 
+            padding: 15px; 
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .instructions {
+            background-color: #fffbea;
+            border-left: 4px solid #f0b429;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chart Debug Helper</h1>
+        
+        <div class="instructions">
+            <p>This page provides tools to debug weekly distribution chart issues.</p>
+            <p>Instructions:</p>
+            <ol>
+                <li>Open the main Activity Tracker app in another tab</li>
+                <li>Login and select the "Pull-ups" activity</li>
+                <li>Open your browser's developer console (F12)</li>
+                <li>Run the diagnostic commands below</li>
+                <li>Check the console output for errors or issues</li>
+            </ol>
+        </div>
+        
+        <h2>Diagnostic Commands</h2>
+        <button onclick="copyToClipboard('window.showWeeklyChart()')">Copy Show Weekly Chart Command</button>
+        <button onclick="copyToClipboard('console.log(window.activityCharts.data)')">Copy Log Chart Data Command</button>
+        <button onclick="copyToClipboard('console.log(window.activityCharts.charts)')">Copy Log Chart Objects Command</button>
+        
+        <h2>Debug Steps</h2>
+        <pre>
+1. Select "Pull-ups" activity in the app
+2. Check if any logs appear in the history panel
+3. Open console (F12) and paste: window.showWeeklyChart()
+4. Check for any errors or warning messages
+5. Paste: console.log(window.activityCharts.data)
+6. Check if logs array has any data
+7. Check if the logs have valid logged_at dates
+        </pre>
+        
+        <h2>Common Issues</h2>
+        <ul>
+            <li>No log data available for "Pull-ups" activity</li>
+            <li>Invalid date formats in log entries</li>
+            <li>Chart canvas element not properly initialized</li>
+            <li>Chart library not loaded correctly</li>
+        </ul>
+    </div>
+    
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Command copied to clipboard');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+</html>

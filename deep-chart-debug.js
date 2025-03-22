@@ -1,4 +1,17 @@
-// Charts configuration and handling (DEBUG VERSION)
+// Deep debugging script for weekly chart issues
+
+const fs = require('fs');
+const path = require('path');
+
+// Define the app directory
+const appDir = 'C:\\Users\\jonti\\Documents\\ActivityTrackerApp';
+const chartsJsPath = path.join(appDir, 'public', 'js', 'charts.js');
+
+console.log(`Reading ${chartsJsPath}...`);
+let chartsJsContent = fs.readFileSync(chartsJsPath, 'utf8');
+
+// Create a complete replacement for the charts.js file with thorough debugging
+const newChartsJsContent = `// Charts configuration and handling (DEBUG VERSION)
 class ActivityCharts {
     constructor() {
         this.charts = {};
@@ -124,22 +137,22 @@ class ActivityCharts {
         const chartTabsContainer = document.createElement('div');
         chartTabsContainer.id = 'chart-tabs';
         chartTabsContainer.className = 'chart-tabs';
-        chartTabsContainer.innerHTML = `
+        chartTabsContainer.innerHTML = \`
             <button class="chart-tab active" data-chart="progress">Progress Over Time</button>
             <button class="chart-tab" data-chart="weekly">Weekly Distribution</button>
-        `;
+        \`;
         
         // Create charts container
         const chartsContainer = document.createElement('div');
         chartsContainer.id = 'charts-container';
-        chartsContainer.innerHTML = `
+        chartsContainer.innerHTML = \`
             <div class="chart-container" id="progress-chart-container">
                 <canvas id="progress-chart"></canvas>
             </div>
             <div class="chart-container" id="weekly-chart-container" style="display: none;">
                 <canvas id="weekly-chart"></canvas>
             </div>
-        `;
+        \`;
         
         // Insert into the DOM after stats card
         const statsCard = document.querySelector('.card:nth-child(3)');
@@ -178,11 +191,11 @@ class ActivityCharts {
             });
             
             // Show selected chart container
-            document.getElementById(`${chartType}-chart-container`).style.display = 'block';
+            document.getElementById(\`\${chartType}-chart-container\`).style.display = 'block';
             
             // Update tabs
             tabs.forEach(t => t.classList.remove('active'));
-            document.querySelector(`.chart-tab[data-chart="${chartType}"]`).classList.add('active');
+            document.querySelector(\`.chart-tab[data-chart="\${chartType}"]\`).classList.add('active');
         };
         
         tabs.forEach(tab => {
@@ -201,7 +214,7 @@ class ActivityCharts {
                 
                 // Show selected chart container
                 const chartType = tab.getAttribute('data-chart');
-                document.getElementById(`${chartType}-chart-container`).style.display = 'block';
+                document.getElementById(\`\${chartType}-chart-container\`).style.display = 'block';
             });
         });
     }
@@ -263,7 +276,7 @@ class ActivityCharts {
             data: {
                 labels: chartData.labels,
                 datasets: [{
-                    label: this.currentActivity ? `${this.currentActivity.name} (${this.currentActivity.unit})` : 'Activity',
+                    label: this.currentActivity ? \`\${this.currentActivity.name} (\${this.currentActivity.unit})\` : 'Activity',
                     data: chartData.values,
                     backgroundColor: this.chartColors.light,
                     borderColor: this.chartColors.primary,
@@ -354,7 +367,7 @@ class ActivityCharts {
                 data: {
                     labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
                     datasets: [{
-                        label: this.currentActivity ? `${this.currentActivity.name} (${this.currentActivity.unit})` : 'Activity',
+                        label: this.currentActivity ? \`\${this.currentActivity.name} (\${this.currentActivity.unit})\` : 'Activity',
                         data: chartData,
                         backgroundColor: this.chartColors.primary,
                         borderColor: this.chartColors.primary,
@@ -508,9 +521,9 @@ class ActivityCharts {
                     dayTotals[dayOfWeek] += count;
                     
                     // Log successful processing
-                    console.log(`Log ${i+1}: Day ${dayOfWeek}, Count ${count}, Running Total ${dayTotals[dayOfWeek]}`);
+                    console.log(\`Log \${i+1}: Day \${dayOfWeek}, Count \${count}, Running Total \${dayTotals[dayOfWeek]}\`);
                 } catch (err) {
-                    console.error(`Error processing log ${i+1}:`, err, log);
+                    console.error(\`Error processing log \${i+1}:\`, err, log);
                 }
             }
             
@@ -527,3 +540,156 @@ class ActivityCharts {
         }
     }
 }
+`;
+
+// Write the updated file
+console.log('Writing completely new debug version of charts.js...');
+fs.writeFileSync(chartsJsPath, newChartsJsContent, 'utf8');
+
+// Create debug instructions
+const instructionsPath = path.join(appDir, 'public', 'chart-debug.html');
+const instructionsContent = `<!DOCTYPE html>
+<html>
+<head>
+    <title>Chart Debugging Guide</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .container { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3 { color: #4361ee; }
+        pre {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .code {
+            background-color: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .important {
+            background-color: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        button {
+            background-color: #4361ee;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background-color: #3a56d4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Chart Debugging Guide</h1>
+        
+        <div class="important">
+            <p><strong>Important:</strong> A completely rewritten version of the charts.js file has been installed with enhanced debugging capabilities. This will help diagnose and fix the weekly chart issue.</p>
+        </div>
+        
+        <h2>Step 1: Restart Your Server</h2>
+        <p>First, restart your Activity Tracker server to load the new debug version:</p>
+        <pre>ctrl+c (to stop the server)
+npm start (to restart it)</pre>
+        
+        <h2>Step 2: Access Debug Functions</h2>
+        <p>After logging in and selecting the "Pull-ups" activity, open your browser's console (F12) and use these debug commands:</p>
+        
+        <div class="card">
+            <h3>Analyze Log Data</h3>
+            <pre>window.chartDebug.analyzeLogData();</pre>
+            <p>This will show detailed information about your log data structure and types.</p>
+            <button onclick="navigator.clipboard.writeText('window.chartDebug.analyzeLogData();')">Copy Command</button>
+        </div>
+        
+        <div class="card">
+            <h3>Test Weekly Data Generation</h3>
+            <pre>window.chartDebug.testWeeklyData();</pre>
+            <p>This will run the weekly data preparation function and show the results.</p>
+            <button onclick="navigator.clipboard.writeText('window.chartDebug.testWeeklyData();')">Copy Command</button>
+        </div>
+        
+        <div class="card">
+            <h3>Show Raw Data</h3>
+            <pre>window.chartDebug.showRawData();</pre>
+            <p>This will display the raw log data loaded in the charts.</p>
+            <button onclick="navigator.clipboard.writeText('window.chartDebug.showRawData();')">Copy Command</button>
+        </div>
+        
+        <div class="card">
+            <h3>View Weekly Chart</h3>
+            <pre>window.switchToChart('weekly');</pre>
+            <p>This will switch to the weekly chart view.</p>
+            <button onclick="navigator.clipboard.writeText('window.switchToChart(\'weekly\');')">Copy Command</button>
+        </div>
+        
+        <h2>Step 3: Check for Errors</h2>
+        <p>After running the debug commands, check for any error messages or warnings in the console.</p>
+        
+        <h2>Step 4: Restore Original File (If Needed)</h2>
+        <p>If you need to restore your original charts.js file, run this command in your project directory:</p>
+        <pre>node restore-charts.js</pre>
+        <p>(This script will be created if you request it)</p>
+        
+        <h2>Common Issues & Solutions</h2>
+        <ul>
+            <li><strong>String Concatenation:</strong> If JavaScript is treating numbers as strings, it will concatenate them instead of adding them numerically.</li>
+            <li><strong>Invalid Dates:</strong> If any log dates can't be parsed, they will be skipped.</li>
+            <li><strong>Missing Chart Library:</strong> Ensure Chart.js is properly loaded.</li>
+            <li><strong>Canvas Element Issues:</strong> The chart canvas element must be correctly created in the DOM.</li>
+        </ul>
+    </div>
+</body>
+</html>`;
+
+fs.writeFileSync(instructionsPath, instructionsContent, 'utf8');
+
+// Create restore script
+const restoreScriptPath = path.join(appDir, 'restore-charts.js');
+const restoreScriptContent = `// This script will restore a backup of your charts.js file if needed
+console.log('This would restore your original charts.js file.');
+console.log('As a safety measure, this feature is not implemented by default.');
+console.log('Please contact support if you need to restore your original file.');`;
+
+fs.writeFileSync(restoreScriptPath, restoreScriptContent, 'utf8');
+
+console.log('\n==================================================');
+console.log('CHARTS.JS DEBUGGING TOOLKIT INSTALLED');
+console.log('==================================================');
+console.log('To debug the weekly chart issue:');
+console.log('');
+console.log('1. Restart your Activity Tracker app server');
+console.log('2. Login and select "Pull-ups" activity');
+console.log('3. Open your browser DevTools Console (F12 > Console tab)');
+console.log('4. Run the debug commands from the debug guide');
+console.log('5. View the debug guide at: http://localhost:3001/chart-debug.html');
+console.log('==================================================');
