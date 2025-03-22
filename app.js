@@ -8,6 +8,7 @@ const fs = require('fs');
 const routes = require('./routes');
 const { errorLogger, errorHandler } = require('./middleware/errorHandler');
 const apiRateLimiter = require('./middleware/rateLimiter');
+const apiLogger = require('./middleware/logger');
 require('dotenv').config({ path: './config.env' });
 
 // Create Express app
@@ -26,15 +27,31 @@ const accessLogStream = fs.createWriteStream(
   { flags: 'a' }
 );
 
-// Security middleware
-app.use(helmet());
+// Security middleware with modified CSP to allow external scripts
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
+      fontSrc: ["'self'", "https://cdnjs.cloudflare.com"],
+      imgSrc: ["'self'", "data:"],
+      connectSrc: ["'self'"]
+    }
+  }
+}));
 
 // Logging middleware
 app.use(morgan('combined', { stream: accessLogStream }));
 app.use(morgan('dev'));
+app.use(apiLogger);
 
-// CORS middleware
-app.use(cors());
+// Enhanced CORS middleware
+app.use(cors({
+  origin: '*', // Allow all origins
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Body parser middleware
 app.use(bodyParser.json());

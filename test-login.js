@@ -30,12 +30,57 @@ pool.query('SELECT NOW()', (err, res) => {
   }
 });
 
+// Check if test user exists
+async function checkUser() {
+  try {
+    const result = await pool.query(
+      'SELECT user_id, username, email, password_hash FROM users WHERE username = $1',
+      ['jtiemann']
+    );
+    
+    if (result.rows.length === 0) {
+      console.log('Test user jtiemann not found in the database!');
+      console.log('Creating test user...');
+      
+      // Hash the password
+      const saltRounds = 10;
+      const passwordHash = await bcrypt.hash('kermit', saltRounds);
+      
+      // Insert the user
+      const insertResult = await pool.query(
+        'INSERT INTO users (username, email, password_hash) VALUES ($1, $2, $3) RETURNING user_id, username, email',
+        ['jtiemann', 'jtiemann@example.com', passwordHash]
+      );
+      
+      console.log('Test user created:', insertResult.rows[0]);
+      
+      // Add some default activities
+      await pool.query(
+        'INSERT INTO activity_types (user_id, name, unit) VALUES ($1, $2, $3)',
+        [insertResult.rows[0].user_id, 'Push-ups', 'reps']
+      );
+      
+      await pool.query(
+        'INSERT INTO activity_types (user_id, name, unit) VALUES ($1, $2, $3)',
+        [insertResult.rows[0].user_id, 'Running', 'miles']
+      );
+      
+      console.log('Default activities added for test user');
+    } else {
+      console.log('Test user exists:', result.rows[0]);
+      console.log('Password hash:', result.rows[0].password_hash);
+    }
+  } catch (error) {
+    console.error('Error checking/creating user:', error);
+  }
+}
+
 // Simple test endpoint
-app.get('/test', (req, res) => {
+app.get('/', (req, res) => {
   res.json({ message: 'Test login server is running!' });
 });
 
-// Direct login endpoint (without validation middleware)
+// Direct login endpoint for testing
 app.post('/login', async (req, res) => {
   try {
     console.log('Login request received:', req.body);
@@ -68,16 +113,10 @@ app.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
     
-    // Update last login time
-    await pool.query(
-      'UPDATE users SET last_login = NOW() WHERE user_id = $1',
-      [user.user_id]
-    );
-    
     // Generate JWT token
     const token = jwt.sign(
       { id: user.user_id, username: user.username },
-      process.env.JWT_SECRET || 'your_super_secure_jwt_secret_key_change_this_in_production',
+      process.env.JWT_SECRET || 'your_super_secure_jwt_secret_key',
       { expiresIn: process.env.JWT_EXPIRY || '24h' }
     );
     
@@ -94,10 +133,12 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// Start the test server
-app.listen(port, () => {
-  console.log(`Test login server running on http://localhost:${port}`);
-  console.log(`Try these endpoints:`);
-  console.log(`- GET http://localhost:${port}/test`);
-  console.log(`- POST http://localhost:${port}/login with JSON body: {"username": "jtiemann", "password": "kermit"}`);
+// Start the test server and check for the test user
+checkUser().then(() => {
+  app.listen(port, () => {
+    console.log(`Test login server running on http://localhost:${port}`);
+    console.log(`Try these endpoints:`);
+    console.log(`- GET http://localhost:${port}/`);
+    console.log(`- POST http://localhost:${port}/login with JSON body: {"username": "jtiemann", "password": "kermit"}`);
+  });
 });

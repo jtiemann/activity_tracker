@@ -1,0 +1,174 @@
+2025-03-22T17:19:19.989Z - POST /api/auth/login - Content-Type: application/json
+2025-03-22T17:19:19.989Z - Request Body: undefined
+2025-03-22T17:19:19.989Z - Response 200 to POST /api/auth/login
+2025-03-22T17:19:20.093Z - GET /api/activities/2 - Content-Type: 
+2025-03-22T17:19:20.093Z - Response 200 to GET /api/activities/2
+2025-03-22T17:19:20.106Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:19:20.106Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:19:20.116Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:19:20.116Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:19:20.155Z - POST /api/logs - Content-Type: application/json
+2025-03-22T17:19:20.155Z - Request Body: undefined
+2025-03-22T17:19:20.155Z - Response 201 to POST /api/logs
+2025-03-22T17:19:20.193Z - GET /api/goals/2 - Content-Type: 
+2025-03-22T17:19:20.193Z - Response 200 to GET /api/goals/2
+2025-03-22T17:19:20.201Z - GET /api/achievements/check/2 - Content-Type: 
+2025-03-22T17:19:20.201Z - Response 200 to GET /api/achievements/check/2
+2025-03-22T17:19:36.686Z - GET / - Content-Type: 
+2025-03-22T17:19:36.723Z - GET /css/style.css - Content-Type: 
+2025-03-22T17:19:36.725Z - GET /js/theme.js - Content-Type: 
+2025-03-22T17:19:36.733Z - GET /js/charts.js - Content-Type: 
+2025-03-22T17:19:36.734Z - GET /js/mobile-nav.js - Content-Type: 
+2025-03-22T17:19:36.735Z - GET /js/app.js - Content-Type: 
+2025-03-22T17:19:36.855Z - GET /favicon.ico - Content-Type: 
+2025-03-22T17:19:38.327Z - POST /api/auth/login - Content-Type: application/json
+2025-03-22T17:19:38.327Z - Request Body: undefined
+2025-03-22T17:19:38.327Z - Response 200 to POST /api/auth/login
+2025-03-22T17:19:38.408Z - GET /api/activities/2 - Content-Type: 
+2025-03-22T17:19:38.408Z - Response 200 to GET /api/activities/2
+2025-03-22T17:19:38.416Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:19:38.416Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:19:38.416Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:19:38.416Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:19:48.417Z - GET /api/logs/2/4 - Content-Type: 
+2025-03-22T17:19:48.422Z - GET /api/logs/stats/2/4 - Content-Type: 
+2025-03-22T17:19:48.417Z - Response 200 to GET /api/logs/2/4
+2025-03-22T17:19:48.422Z - Response 200 to GET /api/logs/stats/2/4
+2025-03-22T17:19:54.196Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:19:54.197Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:19:54.196Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:19:54.197Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:19:55.687Z - GET /api/logs/2/6 - Content-Type: 
+2025-03-22T17:19:55.688Z - GET /api/logs/stats/2/6 - Content-Type: 
+2025-03-22T17:19:55.687Z - Response 200 to GET /api/logs/2/6
+2025-03-22T17:19:55.688Z - Response 200 to GET /api/logs/stats/2/6
+2025-03-22T17:19:58.931Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:19:58.932Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:19:58.931Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:19:58.932Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:20:06.177Z - DELETE /api/logs/15 - Content-Type: 
+2025-03-22T17:20:06.177Z - Response 200 to DELETE /api/logs/15
+2025-03-22T17:20:06.199Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:20:06.200Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:20:06.199Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:20:06.200Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:20:56.332Z - GET / - Content-Type: 
+2025-03-22T17:21:03.215Z - GET / - Content-Type: 
+2025-03-22T17:21:28.994Z - GET / - Content-Type: 
+2025-03-22T17:21:31.157Z - GET /favicon.ico - Content-Type: 
+2025-03-22T17:21:31.205Z - GET /css/style.css - Content-Type: 
+2025-03-22T17:21:32.682Z - GET / - Content-Type: 
+2025-03-22T17:21:32.694Z - GET /css/style.css - Content-Type: 
+2025-03-22T17:21:32.694Z - GET /js/theme.js - Content-Type: 
+2025-03-22T17:21:32.701Z - GET /js/charts.js - Content-Type: 
+2025-03-22T17:21:32.702Z - GET /js/mobile-nav.js - Content-Type: 
+2025-03-22T17:21:32.702Z - GET /js/app.js - Content-Type: 
+2025-03-22T17:21:32.866Z - GET /api/activities/2 - Content-Type: 
+2025-03-22T17:21:32.866Z - Response 200 to GET /api/activities/2
+2025-03-22T17:21:32.901Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:21:32.902Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:21:32.901Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:21:32.902Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:21:32.987Z - GET /favicon.ico - Content-Type: 
+2025-03-22T17:24:22.221Z - GET / - Content-Type: 
+2025-03-22T17:24:22.240Z - GET /css/style.css - Content-Type: 
+2025-03-22T17:24:22.242Z - GET /js/theme.js - Content-Type: 
+2025-03-22T17:24:22.245Z - GET /js/app.js - Content-Type: 
+2025-03-22T17:24:22.246Z - GET /js/charts.js - Content-Type: 
+2025-03-22T17:24:22.247Z - GET /js/mobile-nav.js - Content-Type: 
+2025-03-22T17:24:22.460Z - GET /api/activities/2 - Content-Type: 
+2025-03-22T17:24:22.460Z - Response 200 to GET /api/activities/2
+2025-03-22T17:24:22.480Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:24:22.481Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:24:22.480Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:24:22.481Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:24:22.608Z - GET /favicon.ico - Content-Type: 
+2025-03-22T17:24:41.437Z - GET / - Content-Type: 
+2025-03-22T17:24:41.449Z - GET /css/style.css - Content-Type: 
+2025-03-22T17:24:41.450Z - GET /js/theme.js - Content-Type: 
+2025-03-22T17:24:41.457Z - GET /js/charts.js - Content-Type: 
+2025-03-22T17:24:41.458Z - GET /js/mobile-nav.js - Content-Type: 
+2025-03-22T17:24:41.459Z - GET /js/app.js - Content-Type: 
+2025-03-22T17:24:41.547Z - GET /api/activities/2 - Content-Type: 
+2025-03-22T17:24:41.547Z - Response 200 to GET /api/activities/2
+2025-03-22T17:24:41.555Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:24:41.555Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:24:41.555Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:24:41.555Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:24:41.625Z - GET /favicon.ico - Content-Type: 
+2025-03-22T17:24:50.613Z - GET /api/logs/2/4 - Content-Type: 
+2025-03-22T17:24:50.614Z - GET /api/logs/stats/2/4 - Content-Type: 
+2025-03-22T17:24:50.613Z - Response 200 to GET /api/logs/2/4
+2025-03-22T17:24:50.614Z - Response 200 to GET /api/logs/stats/2/4
+2025-03-22T17:24:54.359Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:24:54.359Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:24:54.359Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:24:54.359Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:26:08.105Z - GET /api/logs/2/6 - Content-Type: 
+2025-03-22T17:26:08.107Z - GET /api/logs/stats/2/6 - Content-Type: 
+2025-03-22T17:26:08.105Z - Response 200 to GET /api/logs/2/6
+2025-03-22T17:26:08.107Z - Response 200 to GET /api/logs/stats/2/6
+2025-03-22T17:29:35.892Z - GET / - Content-Type: 
+2025-03-22T17:29:35.908Z - GET /css/style.css - Content-Type: 
+2025-03-22T17:29:35.908Z - GET /js/theme.js - Content-Type: 
+2025-03-22T17:29:35.913Z - GET /js/mobile-nav.js - Content-Type: 
+2025-03-22T17:29:35.914Z - GET /js/charts.js - Content-Type: 
+2025-03-22T17:29:35.915Z - GET /js/app.js - Content-Type: 
+2025-03-22T17:29:36.065Z - GET /api/activities/2 - Content-Type: 
+2025-03-22T17:29:36.065Z - Response 200 to GET /api/activities/2
+2025-03-22T17:29:36.091Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:29:36.092Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:29:36.091Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:29:36.092Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:29:36.204Z - GET /favicon.ico - Content-Type: 
+2025-03-22T17:29:42.890Z - GET / - Content-Type: 
+2025-03-22T17:29:42.909Z - GET /css/style.css - Content-Type: 
+2025-03-22T17:29:42.910Z - GET /js/theme.js - Content-Type: 
+2025-03-22T17:29:42.913Z - GET /js/charts.js - Content-Type: 
+2025-03-22T17:29:42.915Z - GET /js/mobile-nav.js - Content-Type: 
+2025-03-22T17:29:42.916Z - GET /js/app.js - Content-Type: 
+2025-03-22T17:29:43.035Z - GET /api/activities/2 - Content-Type: 
+2025-03-22T17:29:43.035Z - Response 200 to GET /api/activities/2
+2025-03-22T17:29:43.051Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:29:43.052Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:29:43.051Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:29:43.052Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:29:43.127Z - GET /favicon.ico - Content-Type: 
+2025-03-22T17:30:25.841Z - POST /api/auth/login - Content-Type: application/json
+2025-03-22T17:30:25.841Z - Request Body: undefined
+2025-03-22T17:30:25.841Z - Response 200 to POST /api/auth/login
+2025-03-22T17:30:25.937Z - GET /api/activities/2 - Content-Type: 
+2025-03-22T17:30:25.937Z - Response 200 to GET /api/activities/2
+2025-03-22T17:30:25.945Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:30:25.946Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:30:25.945Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:30:25.946Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:30:33.644Z - GET /api/logs/2/11 - Content-Type: 
+2025-03-22T17:30:33.645Z - GET /api/logs/stats/2/11 - Content-Type: 
+2025-03-22T17:30:33.644Z - Response 200 to GET /api/logs/2/11
+2025-03-22T17:30:33.645Z - Response 200 to GET /api/logs/stats/2/11
+2025-03-22T17:30:39.105Z - GET /api/logs/2/10 - Content-Type: 
+2025-03-22T17:30:39.106Z - GET /api/logs/stats/2/10 - Content-Type: 
+2025-03-22T17:30:39.105Z - Response 200 to GET /api/logs/2/10
+2025-03-22T17:30:39.106Z - Response 200 to GET /api/logs/stats/2/10
+2025-03-22T17:30:44.842Z - GET /api/logs/2/6 - Content-Type: 
+2025-03-22T17:30:44.842Z - GET /api/logs/stats/2/6 - Content-Type: 
+2025-03-22T17:30:44.842Z - Response 200 to GET /api/logs/2/6
+2025-03-22T17:30:44.842Z - Response 200 to GET /api/logs/stats/2/6
+2025-03-22T17:30:48.224Z - GET / - Content-Type: 
+2025-03-22T17:30:48.239Z - GET /css/style.css - Content-Type: 
+2025-03-22T17:30:48.240Z - GET /js/theme.js - Content-Type: 
+2025-03-22T17:30:48.244Z - GET /js/charts.js - Content-Type: 
+2025-03-22T17:30:48.244Z - GET /js/mobile-nav.js - Content-Type: 
+2025-03-22T17:30:48.245Z - GET /js/app.js - Content-Type: 
+2025-03-22T17:30:48.360Z - GET /api/activities/2 - Content-Type: 
+2025-03-22T17:30:48.360Z - Response 200 to GET /api/activities/2
+2025-03-22T17:30:48.374Z - GET /api/logs/2/5 - Content-Type: 
+2025-03-22T17:30:48.375Z - GET /api/logs/stats/2/5 - Content-Type: 
+2025-03-22T17:30:48.374Z - Response 200 to GET /api/logs/2/5
+2025-03-22T17:30:48.375Z - Response 200 to GET /api/logs/stats/2/5
+2025-03-22T17:30:48.486Z - GET /favicon.ico - Content-Type: 
+2025-03-22T17:30:50.187Z - GET /api/logs/2/6 - Content-Type: 
+2025-03-22T17:30:50.187Z - GET /api/logs/stats/2/6 - Content-Type: 
+2025-03-22T17:30:50.187Z - Response 200 to GET /api/logs/2/6
+2025-03-22T17:30:50.187Z - Response 200 to GET /api/logs/stats/2/6

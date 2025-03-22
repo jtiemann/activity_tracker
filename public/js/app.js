@@ -111,7 +111,8 @@ document.addEventListener('DOMContentLoaded', function() {
         loginBtn.disabled = true;
         
         try {
-            const response = await fetch('/api/login', {
+            // Updated API endpoint to match the server route
+            const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -178,7 +179,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load activities for current user
     async function loadActivities() {
         try {
-            const response = await fetch(`/api/activities/${currentUser.user_id}`);
+            const response = await fetch(`/api/activities/${currentUser.user_id}`, {
+                headers: {
+                    'Authorization': `Bearer ${currentUser.token}`
+                }
+            });
+            
             if (!response.ok) throw new Error('Failed to load activities');
             
             activities = await response.json();
@@ -235,6 +241,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${currentUser.token}`
                 },
                 body: JSON.stringify({
                     userId: currentUser.user_id,
@@ -328,6 +335,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${currentUser.token}`
                 },
                 body: JSON.stringify({
                     activityTypeId: currentActivity.activity_type_id,
@@ -373,7 +381,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!currentActivity) return;
         
         try {
-            const response = await fetch(`/api/logs/${currentUser.user_id}/${currentActivity.activity_type_id}`);
+            const response = await fetch(`/api/logs/${currentUser.user_id}/${currentActivity.activity_type_id}`, {
+                headers: {
+                    'Authorization': `Bearer ${currentUser.token}`
+                }
+            });
+            
             if (!response.ok) throw new Error('Failed to load logs');
             
             const logs = await response.json();
@@ -448,7 +461,10 @@ document.addEventListener('DOMContentLoaded', function() {
     async function deleteLog(logId) {
         try {
             const response = await fetch(`/api/logs/${logId}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${currentUser.token}`
+                }
             });
             
             if (!response.ok) throw new Error('Failed to delete log');
@@ -467,7 +483,12 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!currentActivity) return;
         
         try {
-            const response = await fetch(`/api/stats/${currentUser.user_id}/${currentActivity.activity_type_id}`);
+            const response = await fetch(`/api/logs/stats/${currentUser.user_id}/${currentActivity.activity_type_id}`, {
+                headers: {
+                    'Authorization': `Bearer ${currentUser.token}`
+                }
+            });
+            
             if (!response.ok) throw new Error('Failed to load stats');
             
             const stats = await response.json();

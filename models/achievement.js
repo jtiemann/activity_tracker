@@ -89,6 +89,7 @@ class Achievement {
     }, {});
     
     // Get streak information
+    // Fixed the date operation error
     const streakQuery = `
       WITH daily_activity AS (
         SELECT 
@@ -104,7 +105,7 @@ class Achievement {
           user_id,
           activity_type_id,
           activity_date,
-          activity_date - ROW_NUMBER() OVER (PARTITION BY user_id, activity_type_id ORDER BY activity_date) AS streak_group
+          activity_date - (ROW_NUMBER() OVER (PARTITION BY user_id, activity_type_id ORDER BY activity_date))::integer AS streak_group
         FROM daily_activity
       )
       SELECT 

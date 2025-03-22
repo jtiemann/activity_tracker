@@ -4,6 +4,7 @@ const activityRoutes = require('./activityRoutes');
 const logRoutes = require('./logRoutes');
 const goalRoutes = require('./goalRoutes');
 const achievementRoutes = require('./achievementRoutes');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
@@ -13,6 +14,9 @@ router.use('/api/activities', activityRoutes);
 router.use('/api/logs', logRoutes);
 router.use('/api/goals', goalRoutes);
 router.use('/api/achievements', achievementRoutes);
+
+// Add a legacy route for backward compatibility
+router.post('/api/login', authController.login);
 
 // Health check endpoint
 router.get('/api/health', (req, res) => {

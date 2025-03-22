@@ -26,6 +26,19 @@ CREATE TABLE IF NOT EXISTS user_achievements (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Ensure activity_goals table exists with all columns
+CREATE TABLE IF NOT EXISTS activity_goals (
+    goal_id SERIAL PRIMARY KEY,
+    user_id INTEGER REFERENCES users(user_id) ON DELETE CASCADE,
+    activity_type_id INTEGER REFERENCES activity_types(activity_type_id) ON DELETE CASCADE,
+    target_count NUMERIC(10, 2) NOT NULL,
+    period_type VARCHAR(20) NOT NULL, -- 'daily', 'weekly', 'monthly', 'yearly'
+    start_date DATE,
+    end_date DATE,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, activity_type_id, period_type)
+);
+
 -- Insert sample achievement types
 INSERT INTO achievement_types (name, description, icon, category, threshold)
 VALUES 
@@ -39,8 +52,11 @@ VALUES
     ('Consistency Streak', 'Log activities for 7 consecutive days', 'check-square', 'streak', 7),
     ('Super Streak', 'Log activities for 30 consecutive days', 'award', 'streak', 30),
     ('Activity Explorer', 'Track 3 different types of activities', 'compass', 'activity_variety', 3),
-    ('Activity Enthusiast', 'Track 5 different types of activities', 'award', 'activity_variety', 5);
+    ('Activity Enthusiast', 'Track 5 different types of activities', 'award', 'activity_variety', 5)
+ON CONFLICT DO NOTHING;
 
--- Create index on user_achievements
+-- Create indexes for performance
 CREATE INDEX IF NOT EXISTS idx_user_achievements_user_id ON user_achievements(user_id);
 CREATE INDEX IF NOT EXISTS idx_user_achievements_achievement_type_id ON user_achievements(achievement_type_id);
+CREATE INDEX IF NOT EXISTS idx_activity_goals_user_id ON activity_goals(user_id);
+CREATE INDEX IF NOT EXISTS idx_activity_goals_activity_type_id ON activity_goals(activity_type_id);
