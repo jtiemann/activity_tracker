@@ -3,295 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Activity Tracker - Track your progress and stay motivated">
     <title>Activity Tracker</title>
-    <style>
-        :root {
-            --primary: #4361ee;
-            --primary-dark: #3a56d4;
-            --success: #2ec4b6;
-            --danger: #e63946;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --gray: #6c757d;
-            --gray-light: #dee2e6;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background-color: #f5f7fa;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px 0;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        h1 {
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-        
-        .card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        
-        .card-title {
-            font-size: 1.25rem;
-            color: var(--primary);
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--gray-light);
-            padding-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-        }
-        
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--gray-light);
-            border-radius: 5px;
-            font-size: 1rem;
-        }
-        
-        .input-group {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .input-group input, .input-group select {
-            flex: 1;
-        }
-        
-        button {
-            background-color: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 12px 20px;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            display: inline-block;
-            margin-top: 10px;
-        }
-        
-        button:hover {
-            background-color: var(--primary-dark);
-        }
-        
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .stat-card {
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 15px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .stat-title {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 10px;
-        }
-        
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-        
-        .log-container {
-            max-height: 300px;
-            overflow-y: auto;
-            margin-top: 20px;
-        }
-        
-        .log-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid var(--gray-light);
-        }
-        
-        .log-date {
-            color: var(--gray);
-            font-size: 0.9rem;
-        }
-        
-        .log-reps {
-            font-weight: 500;
-        }
-        
-        .log-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .btn-sm {
-            padding: 5px 10px;
-            font-size: 0.8rem;
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-        }
-        
-        .btn-danger:hover {
-            background-color: #d32f2f;
-        }
-        
-        .empty-state {
-            text-align: center;
-            padding: 30px;
-            color: var(--gray);
-        }
-        
-        .create-activity {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .create-activity input {
-            flex: 1;
-        }
-        
-        .create-activity button {
-            margin-top: 0;
-        }
-        
-        .btn-success {
-            background-color: var(--success);
-        }
-        
-        .btn-success:hover {
-            background-color: #25a99e;
-        }
-        
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 30px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .login-title {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .hidden {
-            display: none;
-        }
-        
-        .loader {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        @media (max-width: 600px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .input-group {
-                flex-direction: column;
-            }
-        }
-
-        .user-info {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .user-name {
-            font-weight: bold;
-        }
-
-        .logout-btn {
-            padding: 5px 10px;
-            font-size: 0.8rem;
-            margin-top: 0;
-        }
-    </style>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+    <!-- Skip to content link for accessibility -->
+    <a href="#app-container" class="skip-link">Skip to content</a>
+    
     <!-- Login Screen -->
-    <div id="login-screen" class="login-container">
-        <h2 class="login-title">Activity Tracker</h2>
+    <div id="login-screen" class="login-container" role="dialog" aria-labelledby="login-title">
+        <h2 id="login-title" class="login-title">Activity Tracker</h2>
         <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" id="username" placeholder="Enter username">
+            <input type="text" id="username" placeholder="Enter username" aria-required="true">
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" placeholder="Enter password">
+            <input type="password" id="password" placeholder="Enter password" aria-required="true">
         </div>
         <button id="login-btn">Login</button>
-        <p id="login-error" style="color: var(--danger); margin-top: 10px; text-align: center;"></p>
+        <p id="login-error" style="color: var(--danger); margin-top: 10px; text-align: center;" aria-live="polite"></p>
     </div>
 
     <!-- Main App (initially hidden) -->
-    <div id="app-container" class="container hidden">
+    <div id="app-container" class="container hidden" role="main">
         <div class="user-info">
             <span class="user-name" id="user-name"></span>
             <button class="logout-btn btn-danger" id="logout-btn">Logout</button>
@@ -302,15 +46,15 @@
             <p>Track your progress and stay motivated</p>
         </header>
         
-        <div class="card">
-            <h2 class="card-title">
+        <div class="card" role="form" aria-labelledby="activity-form-title">
+            <h2 id="activity-form-title" class="card-title">
                 <span>Track Your Activity</span>
             </h2>
             
             <div class="form-group">
                 <label for="activity-type">Activity Type</label>
                 <div class="input-group">
-                    <select id="activity-type"></select>
+                    <select id="activity-type" aria-required="true"></select>
                     <button id="new-activity-btn" class="btn-success">New Activity</button>
                 </div>
             </div>
@@ -319,8 +63,8 @@
                 <div class="form-group">
                     <label for="new-activity-name">Create New Activity</label>
                     <div class="create-activity">
-                        <input type="text" id="new-activity-name" placeholder="e.g. Push-ups, Running, Meditation">
-                        <input type="text" id="new-activity-unit" placeholder="e.g. reps, minutes, miles">
+                        <input type="text" id="new-activity-name" placeholder="e.g. Push-ups, Running, Meditation" aria-required="true">
+                        <input type="text" id="new-activity-unit" placeholder="e.g. reps, minutes, miles" aria-required="true">
                         <button id="save-activity-btn">Save</button>
                     </div>
                 </div>
@@ -328,12 +72,12 @@
             
             <div class="form-group">
                 <label for="count">Count</label>
-                <input type="number" id="count" min="1" value="10">
+                <input type="number" id="count" min="1" value="10" aria-required="true">
             </div>
             
             <div class="form-group">
                 <label for="unit" id="unit-label">Units</label>
-                <input type="text" id="unit" placeholder="e.g. reps, minutes, miles">
+                <input type="text" id="unit" placeholder="e.g. reps, minutes, miles" aria-required="true">
             </div>
             
             <div class="form-group">
@@ -343,41 +87,41 @@
             
             <div class="form-group">
                 <label for="date">Date & Time</label>
-                <input type="datetime-local" id="date">
+                <input type="datetime-local" id="date" aria-required="true">
             </div>
             
             <button id="log-button">Log Activity</button>
         </div>
         
-        <div class="card">
-            <h2 class="card-title">Your Stats</h2>
-            <div class="stats">
+        <div class="card" aria-labelledby="stats-title">
+            <h2 id="stats-title" class="card-title">Your Stats</h2>
+            <div class="stats" role="group" aria-label="Activity statistics">
                 <div class="stat-card">
                     <div class="stat-title">Today</div>
-                    <div class="stat-value" id="today-count">0</div>
+                    <div class="stat-value" id="today-count" aria-live="polite">0</div>
                     <div id="today-unit">units</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-title">This Week</div>
-                    <div class="stat-value" id="week-count">0</div>
+                    <div class="stat-value" id="week-count" aria-live="polite">0</div>
                     <div id="week-unit">units</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-title">This Month</div>
-                    <div class="stat-value" id="month-count">0</div>
+                    <div class="stat-value" id="month-count" aria-live="polite">0</div>
                     <div id="month-unit">units</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-title">Year to Date</div>
-                    <div class="stat-value" id="year-count">0</div>
+                    <div class="stat-value" id="year-count" aria-live="polite">0</div>
                     <div id="year-unit">units</div>
                 </div>
             </div>
         </div>
         
-        <div class="card">
-            <h2 class="card-title">Your History</h2>
-            <div id="log-container" class="log-container">
+        <div class="card" aria-labelledby="history-title">
+            <h2 id="history-title" class="card-title">Your History</h2>
+            <div id="log-container" class="log-container" role="region" aria-live="polite">
                 <div class="empty-state" id="empty-state">
                     <p>No activities logged yet. Start tracking today!</p>
                 </div>
@@ -386,413 +130,10 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set default date to now
-            const now = new Date();
-            const dateTimeString = now.toISOString().slice(0, 16);
-            document.getElementById('date').value = dateTimeString;
-            
-            // DOM Elements
-            const loginScreen = document.getElementById('login-screen');
-            const appContainer = document.getElementById('app-container');
-            const username = document.getElementById('username');
-            const password = document.getElementById('password');
-            const loginBtn = document.getElementById('login-btn');
-            const loginError = document.getElementById('login-error');
-            const userNameDisplay = document.getElementById('user-name');
-            const logoutBtn = document.getElementById('logout-btn');
-            
-            const activityTypeSelect = document.getElementById('activity-type');
-            const newActivityBtn = document.getElementById('new-activity-btn');
-            const createActivityForm = document.getElementById('create-activity-form');
-            const newActivityNameInput = document.getElementById('new-activity-name');
-            const newActivityUnitInput = document.getElementById('new-activity-unit');
-            const saveActivityBtn = document.getElementById('save-activity-btn');
-            const countInput = document.getElementById('count');
-            const unitInput = document.getElementById('unit');
-            const unitLabel = document.getElementById('unit-label');
-            const notesInput = document.getElementById('notes');
-            const dateInput = document.getElementById('date');
-            const logButton = document.getElementById('log-button');
-            const logContainer = document.getElementById('log-container');
-            const emptyState = document.getElementById('empty-state');
-            const appTitle = document.getElementById('app-title');
-            
-            // Stats Elements
-            const todayCount = document.getElementById('today-count');
-            const weekCount = document.getElementById('week-count');
-            const monthCount = document.getElementById('month-count');
-            const yearCount = document.getElementById('year-count');
-            const todayUnit = document.getElementById('today-unit');
-            const weekUnit = document.getElementById('week-unit');
-            const monthUnit = document.getElementById('month-unit');
-            const yearUnit = document.getElementById('year-unit');
-            
-            // User data
-            let currentUser = null;
-            let activities = [];
-            let currentActivity = null;
-            
-            // Check if user is already logged in (from localStorage)
-            const storedUser = localStorage.getItem('currentUser');
-            if (storedUser) {
-                currentUser = JSON.parse(storedUser);
-                showApp();
-                loadActivities();
-            }
-            
-            // Event listeners
-            loginBtn.addEventListener('click', login);
-            logoutBtn.addEventListener('click', logout);
-            
-            activityTypeSelect.addEventListener('change', function() {
-                const selectedId = parseInt(this.value);
-                currentActivity = activities.find(a => a.activity_type_id === selectedId);
-                if (currentActivity) {
-                    updateUIForActivity(currentActivity);
-                    loadLogs();
-                    loadStats();
-                }
-            });
-            
-            newActivityBtn.addEventListener('click', function() {
-                createActivityForm.style.display = 'block';
-                newActivityNameInput.focus();
-            });
-            
-            saveActivityBtn.addEventListener('click', createActivity);
-            
-            logButton.addEventListener('click', logActivity);
-            
-            // Login function
-            async function login() {
-                const usernameValue = username.value.trim();
-                const passwordValue = password.value;
-                
-                if (!usernameValue || !passwordValue) {
-                    loginError.textContent = 'Please enter both username and password';
-                    return;
-                }
-                
-                try {
-                    const response = await fetch('/api/login', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            username: usernameValue,
-                            password: passwordValue
-                        }),
-                    });
-                    
-                    if (!response.ok) {
-                        const errorData = await response.json();
-                        loginError.textContent = errorData.error || 'Login failed';
-                        return;
-                    }
-                    
-                    currentUser = await response.json();
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    
-                    showApp();
-                    loadActivities();
-                } catch (error) {
-                    console.error('Login error:', error);
-                    loginError.textContent = 'An error occurred. Please try again.';
-                }
-            }
-            
-            // Logout function
-            function logout() {
-                currentUser = null;
-                localStorage.removeItem('currentUser');
-                showLogin();
-            }
-            
-            // Show app after login
-            function showApp() {
-                loginScreen.classList.add('hidden');
-                appContainer.classList.remove('hidden');
-                userNameDisplay.textContent = currentUser.username;
-            }
-            
-            // Show login after logout
-            function showLogin() {
-                loginScreen.classList.remove('hidden');
-                appContainer.classList.add('hidden');
-                username.value = '';
-                password.value = '';
-                loginError.textContent = '';
-            }
-            
-            // Load activities for current user
-            async function loadActivities() {
-                try {
-                    const response = await fetch(`/api/activities/${currentUser.user_id}`);
-                    if (!response.ok) throw new Error('Failed to load activities');
-                    
-                    activities = await response.json();
-                    
-                    // Populate activity dropdown
-                    populateActivityDropdown();
-                    
-                    if (activities.length > 0) {
-                        currentActivity = activities[0];
-                        updateUIForActivity(currentActivity);
-                        loadLogs();
-                        loadStats();
-                    }
-                } catch (error) {
-                    console.error('Error loading activities:', error);
-                }
-            }
-            
-            // Populate activity dropdown
-            function populateActivityDropdown() {
-                // Clear dropdown
-                activityTypeSelect.innerHTML = '';
-                
-                // Add options
-                activities.forEach(activity => {
-                    const option = document.createElement('option');
-                    option.value = activity.activity_type_id;
-                    option.textContent = activity.name;
-                    activityTypeSelect.appendChild(option);
-                });
-            }
-            
-            // Create a new activity
-            async function createActivity() {
-                const name = newActivityNameInput.value.trim();
-                const unit = newActivityUnitInput.value.trim();
-                
-                if (!name) {
-                    alert('Please enter an activity name');
-                    return;
-                }
-                
-                if (!unit) {
-                    alert('Please enter a unit');
-                    return;
-                }
-                
-                try {
-                    const response = await fetch('/api/activities', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            userId: currentUser.user_id,
-                            name: name,
-                            unit: unit
-                        }),
-                    });
-                    
-                    if (!response.ok) throw new Error('Failed to create activity');
-                    
-                    const newActivity = await response.json();
-                    activities.push(newActivity);
-                    
-                    // Update dropdown and select new activity
-                    populateActivityDropdown();
-                    activityTypeSelect.value = newActivity.activity_type_id;
-                    currentActivity = newActivity;
-                    updateUIForActivity(currentActivity);
-                    
-                    // Hide form and reset
-                    createActivityForm.style.display = 'none';
-                    newActivityNameInput.value = '';
-                    newActivityUnitInput.value = '';
-                    
-                    // Reload logs and stats
-                    loadLogs();
-                    loadStats();
-                } catch (error) {
-                    console.error('Error creating activity:', error);
-                    alert('Failed to create activity. Please try again.');
-                }
-            }
-            
-            // Update UI for selected activity
-            function updateUIForActivity(activity) {
-                // Update app title
-                appTitle.textContent = `${activity.name} Tracker`;
-                
-                // Update unit input and label
-                unitInput.value = activity.unit;
-                unitLabel.textContent = `Units (${activity.unit})`;
-                
-                // Update stats units
-                todayUnit.textContent = activity.unit;
-                weekUnit.textContent = activity.unit;
-                monthUnit.textContent = activity.unit;
-                yearUnit.textContent = activity.unit;
-            }
-            
-            // Log an activity
-            async function logActivity() {
-                if (!currentActivity) {
-                    alert('Please select an activity first');
-                    return;
-                }
-                
-                const count = parseFloat(countInput.value);
-                const unit = unitInput.value.trim();
-                const notes = notesInput.value.trim();
-                const timestamp = new Date(dateInput.value).toISOString();
-                
-                if (isNaN(count) || count <= 0) {
-                    alert('Please enter a valid count');
-                    return;
-                }
-                
-                if (!unit) {
-                    alert('Please enter a unit');
-                    return;
-                }
-                
-                if (isNaN(Date.parse(timestamp))) {
-                    alert('Please select a valid date and time');
-                    return;
-                }
-                
-                try {
-                    const response = await fetch('/api/logs', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            activityTypeId: currentActivity.activity_type_id,
-                            userId: currentUser.user_id,
-                            count: count,
-                            loggedAt: timestamp,
-                            notes: notes
-                        }),
-                    });
-                    
-                    if (!response.ok) throw new Error('Failed to log activity');
-                    
-                    // Update UI
-                    loadLogs();
-                    loadStats();
-                    
-                    // Reset form
-                    countInput.value = 10;
-                    notesInput.value = '';
-                    dateInput.value = new Date().toISOString().slice(0, 16);
-                    
-                    // Update activity unit if changed
-                    if (unit !== currentActivity.unit) {
-                        currentActivity.unit = unit;
-                        updateUIForActivity(currentActivity);
-                    }
-                } catch (error) {
-                    console.error('Error logging activity:', error);
-                    alert('Failed to log activity. Please try again.');
-                }
-            }
-            
-            // Load logs for current activity
-            async function loadLogs() {
-                if (!currentActivity) return;
-                
-                try {
-                    const response = await fetch(`/api/logs/${currentUser.user_id}/${currentActivity.activity_type_id}`);
-                    if (!response.ok) throw new Error('Failed to load logs');
-                    
-                    const logs = await response.json();
-                    
-                    // Clear log container except empty state
-                    Array.from(logContainer.children).forEach(child => {
-                        if (child !== emptyState) {
-                            logContainer.removeChild(child);
-                        }
-                    });
-                    
-                    // Show/hide empty state
-                    if (logs.length === 0) {
-                        emptyState.style.display = 'block';
-                        return;
-                    } else {
-                        emptyState.style.display = 'none';
-                    }
-                    
-                    // Render each log
-                    logs.forEach(log => {
-                        const logItem = document.createElement('div');
-                        logItem.className = 'log-item';
-                        
-                        const date = new Date(log.logged_at);
-                        const formattedDate = `${date.toLocaleDateString()} at ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
-                        
-                        const notesText = log.notes ? `<div class="log-notes">${log.notes}</div>` : '';
-                        
-                        logItem.innerHTML = `
-                            <div>
-                                <div class="log-date">${formattedDate}</div>
-                                <div class="log-reps">${log.count} ${currentActivity.unit}</div>
-                                ${notesText}
-                            </div>
-                            <div class="log-actions">
-                                <button class="btn-sm btn-danger" data-id="${log.log_id}">Delete</button>
-                            </div>
-                        `;
-                        
-                        logContainer.appendChild(logItem);
-                        
-                        // Add delete event listener
-                        const deleteButton = logItem.querySelector('button[data-id]');
-                        deleteButton.addEventListener('click', function() {
-                            const id = parseInt(this.getAttribute('data-id'));
-                            deleteLog(id);
-                        });
-                    });
-                } catch (error) {
-                    console.error('Error loading logs:', error);
-                }
-            }
-            
-            // Delete a log
-            async function deleteLog(logId) {
-                try {
-                    const response = await fetch(`/api/logs/${logId}`, {
-                        method: 'DELETE'
-                    });
-                    
-                    if (!response.ok) throw new Error('Failed to delete log');
-                    
-                    // Reload logs and stats
-                    loadLogs();
-                    loadStats();
-                } catch (error) {
-                    console.error('Error deleting log:', error);
-                    alert('Failed to delete log. Please try again.');
-                }
-            }
-            
-            // Load stats for current activity
-            async function loadStats() {
-                if (!currentActivity) return;
-                
-                try {
-                    const response = await fetch(`/api/stats/${currentUser.user_id}/${currentActivity.activity_type_id}`);
-                    if (!response.ok) throw new Error('Failed to load stats');
-                    
-                    const stats = await response.json();
-                    
-                    todayCount.textContent = stats.today;
-                    weekCount.textContent = stats.week;
-                    monthCount.textContent = stats.month;
-                    yearCount.textContent = stats.year;
-                } catch (error) {
-                    console.error('Error loading stats:', error);
-                }
-            }
-        });
-    </script>
+    <!-- Custom scripts -->
+    <script src="js/theme.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/mobile-nav.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>
