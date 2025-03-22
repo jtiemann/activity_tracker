@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Element Debugger</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2 {
+      color: #4361ee;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      background: #4361ee;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+    button:hover {
+      background: #3a56d4;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+    #result {
+      margin-top: 20px;
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .error {
+      color: #d32f2f;
+      font-weight: bold;
+    }
+    .success {
+      color: #388e3c;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Element Debugger</h1>
+  
+  <div class="form-group">
+    <label for="element-id">Element ID:</label>
+    <input type="text" id="element-id" placeholder="Enter element ID (e.g., goal-activity)">
+  </div>
+  
+  <div class="form-group">
+    <label for="element-value">Set Value:</label>
+    <input type="text" id="element-value" placeholder="Value to set">
+  </div>
+  
+  <button onclick="getElementInfo()">Get Element Info</button>
+  <button onclick="setElementValue()">Set Element Value</button>
+  <button onclick="forceRepaint()">Force Repaint</button>
+  
+  <div id="result"></div>
+  
+  <h2>Predefined Actions</h2>
+  
+  <button onclick="fixGoalActivity()">Fix Goal Activity Field</button>
+  <button onclick="showGoalForm()">Show Goal Form</button>
+  <button onclick="hideGoalForm()">Hide Goal Form</button>
+  
+  <script>
+    // Get element information
+    function getElementInfo() {
+      const elementId = document.getElementById('element-id').value;
+      const result = document.getElementById('result');
+      
+      if (!elementId) {
+        result.innerHTML = '<p class="error">Please enter an element ID</p>';
+        return;
+      }
+      
+      // Look for the element in both this window and the opener window
+      const element = document.getElementById(elementId) || 
+                     (window.opener && window.opener.document.getElementById(elementId));
+      
+      if (!element) {
+        result.innerHTML = `<p class="error">Element with ID "${elementId}" not found</p>`;
+        return;
+      }
+      
+      // Get computed style
+      const style = window.getComputedStyle(element);
+      
+      // Format the result
+      result.innerHTML = `
+        <h3>Element Information:</h3>
+        <p>ID: ${elementId}</p>
+        <p>Tag: ${element.tagName}</p>
+        <p>Type: ${element.type || 'N/A'}</p>
+        <p>Value: "${element.value || ''}"</p>
+        <p>Display: ${style.display}</p>
+        <p>Visibility: ${style.visibility}</p>
+        <p>Z-Index: ${style.zIndex}</p>
+        <p>HTML: ${element.outerHTML.substring(0, 300)}...</p>
+        <p>Attributes:</p>
+        <pre>${getElementAttributes(element)}</pre>
+      `;
+    }
+    
+    // Set element value
+    function setElementValue() {
+      const elementId = document.getElementById('element-id').value;
+      const value = document.getElementById('element-value').value;
+      const result = document.getElementById('result');
+      
+      if (!elementId) {
+        result.innerHTML = '<p class="error">Please enter an element ID</p>';
+        return;
+      }
+      
+      // Look for the element in both this window and the opener window
+      let element = document.getElementById(elementId);
+      let window_source = 'this window';
+      
+      if (!element && window.opener) {
+        element = window.opener.document.getElementById(elementId);
+        window_source = 'opener window';
+      }
+      
+      if (!element) {
+        result.innerHTML = `<p class="error">Element with ID "${elementId}" not found</p>`;
+        return;
+      }
+      
+      // Set the value
+      const oldValue = element.value;
+      element.value = value;
+      
+      // Report success
+      result.innerHTML = `
+        <p class="success">Value set successfully!</p>
+        <p>Element: ${elementId} (in ${window_source})</p>
+        <p>Old value: "${oldValue || ''}"</p>
+        <p>New value: "${element.value || ''}"</p>
+      `;
+    }
+    
+    // Force repaint of an element
+    function forceRepaint() {
+      const elementId = document.getElementById('element-id').value;
+      const result = document.getElementById('result');
+      
+      if (!elementId) {
+        result.innerHTML = '<p class="error">Please enter an element ID</p>';
+        return;
+      }
+      
+      // Look for the element in both this window and the opener window
+      let element = document.getElementById(elementId);
+      let window_source = 'this window';
+      
+      if (!element && window.opener) {
+        element = window.opener.document.getElementById(elementId);
+        window_source = 'opener window';
+      }
+      
+      if (!element) {
+        result.innerHTML = `<p class="error">Element with ID "${elementId}" not found</p>`;
+        return;
+      }
+      
+      // Force a repaint by toggling display
+      const originalDisplay = element.style.display;
+      element.style.display = 'none';
+      
+      setTimeout(() => {
+        element.style.display = originalDisplay;
+        
+        result.innerHTML = `
+          <p class="success">Repaint forced successfully!</p>
+          <p>Element: ${elementId} (in ${window_source})</p>
+        `;
+      }, 50);
+    }
+    
+    // Get element attributes as a string
+    function getElementAttributes(element) {
+      let result = '';
+      for (let i = 0; i < element.attributes.length; i++) {
+        const attr = element.attributes[i];
+        result += `${attr.name}: "${attr.value}"
+`;
+      }
+      return result;
+    }
+    
+    // Fix the goal activity field
+    function fixGoalActivity() {
+      if (!window.opener) {
+        const result = document.getElementById('result');
+        result.innerHTML = '<p class="error">No opener window found. Please open this page from the main app.</p>';
+        return;
+      }
+      
+      // Get the activity dropdown
+      const activitySelect = window.opener.document.getElementById('activity-type');
+      
+      // Get the goal activity input field
+      const goalActivityInput = window.opener.document.getElementById('goal-activity');
+      
+      if (!activitySelect || !goalActivityInput) {
+        const result = document.getElementById('result');
+        result.innerHTML = `
+          <p class="error">Required elements not found:</p>
+          <p>Activity select: ${activitySelect ? 'Found' : 'Not found'}</p>
+          <p>Goal activity input: ${goalActivityInput ? 'Found' : 'Not found'}</p>
+        `;
+        return;
+      }
+      
+      // Get the selected activity
+      let activityName = '';
+      if (activitySelect.selectedOptions && activitySelect.selectedOptions.length > 0) {
+        activityName = activitySelect.selectedOptions[0].textContent || '';
+      }
+      
+      // Set the goal activity input value
+      goalActivityInput.value = activityName;
+      
+      // Force a repaint
+      goalActivityInput.style.display = 'none';
+      setTimeout(() => {
+        goalActivityInput.style.display = '';
+        
+        const result = document.getElementById('result');
+        result.innerHTML = `
+          <p class="success">Goal activity field fixed!</p>
+          <p>Selected activity: "${activityName}"</p>
+          <p>Goal activity field value: "${goalActivityInput.value}"</p>
+        `;
+      }, 50);
+    }
+    
+    // Show goal form
+    function showGoalForm() {
+      if (!window.opener) {
+        const result = document.getElementById('result');
+        result.innerHTML = '<p class="error">No opener window found. Please open this page from the main app.</p>';
+        return;
+      }
+      
+      // Get the goal form container
+      const goalFormContainer = window.opener.document.getElementById('goal-form-container');
+      
+      if (!goalFormContainer) {
+        const result = document.getElementById('result');
+        result.innerHTML = '<p class="error">Goal form container not found</p>';
+        return;
+      }
+      
+      // Show the form
+      goalFormContainer.classList.remove('hidden');
+      goalFormContainer.style.display = 'flex';
+      
+      // Also fix the activity field
+      fixGoalActivity();
+      
+      const result = document.getElementById('result');
+      result.innerHTML = '<p class="success">Goal form is now visible</p>';
+    }
+    
+    // Hide goal form
+    function hideGoalForm() {
+      if (!window.opener) {
+        const result = document.getElementById('result');
+        result.innerHTML = '<p class="error">No opener window found. Please open this page from the main app.</p>';
+        return;
+      }
+      
+      // Get the goal form container
+      const goalFormContainer = window.opener.document.getElementById('goal-form-container');
+      
+      if (!goalFormContainer) {
+        const result = document.getElementById('result');
+        result.innerHTML = '<p class="error">Goal form container not found</p>';
+        return;
+      }
+      
+      // Hide the form
+      goalFormContainer.classList.add('hidden');
+      
+      const result = document.getElementById('result');
+      result.innerHTML = '<p class="success">Goal form is now hidden</p>';
+    }
+  </script>
+</body>
+</html>

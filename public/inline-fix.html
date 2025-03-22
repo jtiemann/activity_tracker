@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inline Script Fix</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    button {
+      background: #4361ee;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      margin: 10px 0;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    pre {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 5px;
+      white-space: pre-wrap;
+    }
+    .copy-area {
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Inline Script Fix for Goal Activity Field</h1>
+  
+  <p>This page contains an inline script that you can copy and paste into your browser console to fix the issue with the Activity field in the Add Goal modal.</p>
+  
+  <button onclick="copyScriptToClipboard()">Copy Script to Clipboard</button>
+  
+  <div class="copy-area">
+    <h3>Instructions:</h3>
+    <ol>
+      <li>Open your Activity Tracker app</li>
+      <li>Press F12 to open the browser console</li>
+      <li>Click the button above to copy the script</li>
+      <li>Paste the script into the console and press Enter</li>
+      <li>Try clicking the Add Goal button again</li>
+    </ol>
+  </div>
+  
+  <h3>Script:</h3>
+  <pre id="script-content">
+// Inline fix for the Add Goal button and activity field population
+(function() {
+  // Fix the Add Goal button
+  const addGoalBtn = document.getElementById('add-goal-btn');
+  if (addGoalBtn) {
+    console.log('Applying inline fix to Add Goal button');
+    
+    // Replace click handler
+    addGoalBtn.onclick = function(e) {
+      e.preventDefault();
+      console.log('Add Goal button clicked via inline fix');
+      
+      // Show form and populate activity
+      showGoalFormDirect();
+    };
+  } else {
+    console.error('Add Goal button not found');
+  }
+  
+  // Direct function to show the goal form and populate activity
+  function showGoalFormDirect() {
+    // Get all required elements
+    const goalFormContainer = document.getElementById('goal-form-container');
+    const goalForm = document.getElementById('goal-form');
+    const activityInput = document.getElementById('goal-activity');
+    const activitySelect = document.getElementById('activity-type');
+    
+    if (!goalFormContainer || !goalForm) {
+      console.error('Goal form elements not found');
+      return;
+    }
+    
+    // Reset the form
+    goalForm.reset();
+    
+    // Set the activity field value directly
+    if (activityInput && activitySelect) {
+      const selectedOption = activitySelect.selectedOptions[0];
+      if (selectedOption) {
+        const activityName = selectedOption.textContent;
+        console.log('Setting activity input to:', activityName);
+        activityInput.value = activityName;
+        
+        // Force a repaint
+        setTimeout(function() {
+          // Double-check the value was set
+          if (activityInput.value !== activityName) {
+            console.log('Value not set properly, trying again');
+            activityInput.value = activityName;
+          }
+        }, 50);
+      }
+    }
+    
+    // Show the form
+    goalFormContainer.classList.remove('hidden');
+    goalFormContainer.style.display = 'flex';
+    
+    console.log('Goal form should now be visible with activity populated');
+    
+    // Return a helper function to check if it worked
+    return function checkResult() {
+      if (activityInput) {
+        console.log('Current activity input value:', activityInput.value);
+      }
+    };
+  }
+  
+  // Make function globally available for testing
+  window.showGoalFormDirect = showGoalFormDirect;
+  
+  console.log('Inline fix applied successfully');
+})();
+
+// Immediately check the result (can be run again manually)
+setTimeout(function() {
+  console.log('Checking inline fix status:');
+  console.log('Add Goal button has onclick handler:', !!document.getElementById('add-goal-btn').onclick);
+  if (document.getElementById('goal-form-container').style.display === 'flex') {
+    console.log('Goal form is currently visible');
+    console.log('Activity input value:', document.getElementById('goal-activity').value);
+  } else {
+    console.log('Goal form is currently hidden');
+  }
+}, 100);
+  </pre>
+  
+  <script>
+    function copyScriptToClipboard() {
+      const scriptContent = document.getElementById('script-content').textContent;
+      navigator.clipboard.writeText(scriptContent)
+        .then(() => {
+          alert('Script copied to clipboard! Now paste it into your browser console.');
+        })
+        .catch(err => {
+          alert('Failed to copy script: ' + err);
+        });
+    }
+  </script>
+</body>
+</html>

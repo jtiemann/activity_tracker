@@ -80,8 +80,13 @@ document.addEventListener('DOMContentLoaded', function() {
             updateUIForActivity(currentActivity);
             // Load previous entry as default
             loadPreviousEntry(currentActivity.activity_type_id, currentUser.user_id);
-            loadLogs();
+            
+            // Update goals for current activity
+            if (window.goalsManager) {
+                window.goalsManager.updateActivity(currentActivity);
+            }loadLogs();
             loadStats();
+                window.goalsManager.init(currentActivity);
             // Update chart activity if charts initialized
             if (window.activityCharts) {
                 window.activityCharts.updateActivity(currentActivity);
@@ -136,6 +141,24 @@ document.addEventListener('DOMContentLoaded', function() {
             
             currentUser = await response.json();
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            // Update auth manager 
+            if (window.authManager) {
+                window.authManager.setAuth({
+                    id: currentUser.user_id,
+                    username: currentUser.username,
+                    email: currentUser.email
+                }, currentUser.token);
+            }
+            
+            // Update auth manager 
+            if (window.authManager) {
+                window.authManager.setAuth({
+                    id: currentUser.user_id,
+                    username: currentUser.username,
+                    email: currentUser.email
+                }, currentUser.token);
+            }
+            
             
             showApp();
             loadActivities();

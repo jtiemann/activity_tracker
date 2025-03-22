@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Debug Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #4361ee;
+        }
+        .button {
+            background: #4361ee;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        #debug-info {
+            margin-top: 20px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Activity Information Debug Tool</h1>
+    
+    <p>This tool helps diagnose what's happening with the current activity in the Application.</p>
+    
+    <button class="button" onclick="showActivityInfo()">Show Current Activity Info</button>
+    <button class="button" onclick="testActivityField()">Test Activity Field Population</button>
+    
+    <div id="debug-info"></div>
+    
+    <script>
+        function showActivityInfo() {
+            const debugInfo = document.getElementById('debug-info');
+            debugInfo.innerHTML = '<h2>Current Activity Information:</h2>';
+            
+            // Check app.js currentActivity
+            const appCurrentActivity = window.opener ? window.opener.currentActivity : null;
+            
+            // Check activity select element
+            const activitySelect = window.opener ? window.opener.document.getElementById('activity-type') : null;
+            let selectedActivity = null;
+            if (activitySelect && activitySelect.selectedOptions && activitySelect.selectedOptions.length > 0) {
+                selectedActivity = {
+                    name: activitySelect.selectedOptions[0].textContent,
+                    id: activitySelect.selectedOptions[0].value
+                };
+            }
+            
+            // Check goalsManager
+            const goalsManager = window.opener ? window.opener.goalsManager : null;
+            const goalsManagerActivity = goalsManager ? goalsManager.currentActivity : null;
+            
+            // Display the information
+            debugInfo.innerHTML += `
+            <pre>
+App currentActivity: ${appCurrentActivity ? JSON.stringify(appCurrentActivity, null, 2) : 'Not found'}
+
+Selected Activity in Dropdown: ${selectedActivity ? JSON.stringify(selectedActivity, null, 2) : 'Not found'}
+
+GoalsManager exists: ${goalsManager ? 'Yes' : 'No'}
+
+GoalsManager currentActivity: ${goalsManagerActivity ? JSON.stringify(goalsManagerActivity, null, 2) : 'Not found'}
+            </pre>
+            `;
+        }
+        
+        function testActivityField() {
+            // Get the activity field in the goal form
+            const goalActivity = window.opener ? window.opener.document.getElementById('goal-activity') : null;
+            const activitySelect = window.opener ? window.opener.document.getElementById('activity-type') : null;
+            
+            const debugInfo = document.getElementById('debug-info');
+            debugInfo.innerHTML = '<h2>Activity Field Test:</h2>';
+            
+            if (!goalActivity) {
+                debugInfo.innerHTML += '<p>Error: Could not find goal-activity field in the main window.</p>';
+                return;
+            }
+            
+            if (!activitySelect) {
+                debugInfo.innerHTML += '<p>Error: Could not find activity-type select in the main window.</p>';
+                return;
+            }
+            
+            // Get current field value
+            const currentValue = goalActivity.value;
+            
+            // Get selected activity name
+            let selectedName = '';
+            if (activitySelect.selectedOptions && activitySelect.selectedOptions.length > 0) {
+                selectedName = activitySelect.selectedOptions[0].textContent;
+            }
+            
+            debugInfo.innerHTML += `
+            <pre>
+Current activity field value: "${currentValue}"
+Selected activity name: "${selectedName}"
+            </pre>
+            `;
+            
+            // Try setting the value directly
+            goalActivity.value = selectedName;
+            
+            debugInfo.innerHTML += `
+            <p>Attempted to set activity field value to: "${selectedName}"</p>
+            <p>New activity field value: "${goalActivity.value}"</p>
+            `;
+        }
+    </script>
+</body>
+</html>

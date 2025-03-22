@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goals Debug Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2 {
+            color: #4361ee;
+        }
+        .button {
+            background: #4361ee;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:hover {
+            background: #3a56d4;
+        }
+        code {
+            background: #f5f5f5;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .info {
+            background: #e8f4fd;
+            border-left: 4px solid #4361ee;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        .error {
+            background: #ffebee;
+            border-left: 4px solid #e53935;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Goals Feature Debugging Tool</h1>
+    
+    <div class="info">
+        <p>This tool helps diagnose issues with the "Add Goal" button in the Activity Tracker app.</p>
+    </div>
+    
+    <h2>Debug Actions</h2>
+    
+    <button class="button" onclick="debugAddGoalButton()">Test Add Goal Button</button>
+    <button class="button" onclick="checkGoalFormContainer()">Check Goal Form Container</button>
+    <button class="button" onclick="showGoalForm()">Force Show Goal Form</button>
+    <button class="button" onclick="applyFix()">Apply Fix</button>
+    
+    <div id="result"></div>
+    
+    <h2>How to Use This Tool</h2>
+    <ol>
+        <li>Click "Test Add Goal Button" to see if the button click handler is working properly</li>
+        <li>Click "Check Goal Form Container" to verify the modal form container exists and is configured correctly</li>
+        <li>Click "Force Show Goal Form" to manually display the goal form modal</li>
+        <li>If the above tests help identify the issue, click "Apply Fix" to implement a fix</li>
+    </ol>
+    
+    <h2>Common Issues</h2>
+    <ul>
+        <li>Event listener not attached to the button</li>
+        <li>Modal form HTML missing or incorrect</li>
+        <li>Z-index issues preventing the modal from displaying</li>
+        <li>CSS display properties not being toggled correctly</li>
+    </ul>
+    
+    <script>
+        function showResult(content, isError = false) {
+            const resultEl = document.getElementById('result');
+            resultEl.innerHTML = content;
+            resultEl.style.display = 'block';
+            resultEl.className = isError ? 'error' : 'info';
+        }
+        
+        // Test the Add Goal button functionality
+        function debugAddGoalButton() {
+            try {
+                // Check if button exists
+                const addGoalBtn = document.getElementById('add-goal-btn');
+                if (!addGoalBtn) {
+                    showResult('ERROR: Add Goal button not found in the DOM!', true);
+                    return;
+                }
+                
+                showResult(`
+                <h3>Add Goal Button Found</h3>
+                <p>The Add Goal button exists in the DOM.</p>
+                <p>Button HTML: ${addGoalBtn.outerHTML}</p>
+                <p>Now checking event listeners...</p>
+                `);
+                
+                // Create a test click handler
+                const originalClick = addGoalBtn.onclick;
+                
+                addGoalBtn.onclick = function(e) {
+                    // Log the click
+                    console.log('Add Goal button clicked via debug tool');
+                    
+                    // Call original handler if it exists
+                    if (originalClick) {
+                        originalClick.call(this, e);
+                    }
+                    
+                    // Update test results
+                    document.getElementById('result').innerHTML += `
+                    <p>✅ Button click event triggered successfully.</p>
+                    <p>Check the console for more details.</p>
+                    <p>Next, check if window.goalsManager exists and its methods are correctly defined:</p>
+                    <pre>window.goalsManager: ${window.goalsManager ? 'Exists' : 'MISSING!'}</pre>
+                    <pre>window.goalsManager.showAddGoalForm: ${window.goalsManager && window.goalsManager.showAddGoalForm ? 'Exists' : 'MISSING!'}</pre>
+                    `;
+                };
+                
+                // Trigger a click for testing
+                addGoalBtn.click();
+            } catch (error) {
+                showResult(`ERROR: ${error.message}`, true);
+                console.error('Debug error:', error);
+            }
+        }
+        
+        // Check if goal form container exists and is properly configured
+        function checkGoalFormContainer() {
+            try {
+                const formContainer = document.getElementById('goal-form-container');
+                
+                if (!formContainer) {
+                    showResult('ERROR: Goal form container not found in the DOM!', true);
+                    return;
+                }
+                
+                const computedStyle = window.getComputedStyle(formContainer);
+                const isHidden = formContainer.classList.contains('hidden');
+                const displayValue = computedStyle.display;
+                const zIndexValue = computedStyle.zIndex;
+                
+                showResult(`
+                <h3>Goal Form Container Check</h3>
+                <p>Form container exists in the DOM.</p>
+                <p>Has 'hidden' class: ${isHidden ? 'Yes' : 'No'}</p>
+                <p>Display value: ${displayValue}</p>
+                <p>Z-index value: ${zIndexValue}</p>
+                <p>Position: ${computedStyle.position}</p>
+                <p>Visibility: ${computedStyle.visibility}</p>
+                <p>Opacity: ${computedStyle.opacity}</p>
+                <p>HTML: ${formContainer.outerHTML.substring(0, 300)}...</p>
+                `);
+                
+                // Check form elements
+                const form = document.getElementById('goal-form');
+                const closeBtn = document.getElementById('goal-form-close');
+                const submitBtn = document.getElementById('goal-submit-btn');
+                const cancelBtn = document.getElementById('cancel-goal-btn');
+                
+                document.getElementById('result').innerHTML += `
+                <h3>Form Elements Check</h3>
+                <p>Form exists: ${form ? 'Yes' : 'No'}</p>
+                <p>Close button exists: ${closeBtn ? 'Yes' : 'No'}</p>
+                <p>Submit button exists: ${submitBtn ? 'Yes' : 'No'}</p>
+                <p>Cancel button exists: ${cancelBtn ? 'Yes' : 'No'}</p>
+                `;
+            } catch (error) {
+                showResult(`ERROR: ${error.message}`, true);
+                console.error('Debug error:', error);
+            }
+        }
+        
+        // Force show the goal form
+        function showGoalForm() {
+            try {
+                const formContainer = document.getElementById('goal-form-container');
+                
+                if (!formContainer) {
+                    showResult('ERROR: Goal form container not found in the DOM!', true);
+                    return;
+                }
+                
+                // Remove hidden class and ensure display is set
+                formContainer.classList.remove('hidden');
+                formContainer.style.display = 'flex';
+                formContainer.style.zIndex = '10000';
+                
+                showResult(`
+                <h3>Goal Form Manually Displayed</h3>
+                <p>The goal form container has been manually displayed.</p>
+                <p>Check if it's visible on the screen now.</p>
+                `);
+                
+                // Set up a test close handler
+                const closeBtn = document.getElementById('goal-form-close');
+                if (closeBtn) {
+                    closeBtn.onclick = function() {
+                        formContainer.classList.add('hidden');
+                        document.getElementById('result').innerHTML += `
+                        <p>Form manually hidden via close button.</p>
+                        `;
+                    };
+                }
+            } catch (error) {
+                showResult(`ERROR: ${error.message}`, true);
+                console.error('Debug error:', error);
+            }
+        }
+        
+        // Apply a fix for the Add Goal button
+        function applyFix() {
+            try {
+                const addGoalBtn = document.getElementById('add-goal-btn');
+                const formContainer = document.getElementById('goal-form-container');
+                
+                if (!addGoalBtn || !formContainer) {
+                    showResult('ERROR: Required elements not found!', true);
+                    return;
+                }
+                
+                // Direct fix - set up a direct event handler
+                addGoalBtn.onclick = function() {
+                    console.log('Add Goal button clicked - direct handler');
+                    
+                    const goalFormContainer = document.getElementById('goal-form-container');
+                    const goalForm = document.getElementById('goal-form');
+                    const goalFormTitle = document.getElementById('goal-form-title');
+                    const goalBtn = document.getElementById('goal-submit-btn');
+                    
+                    if (!goalFormContainer || !goalForm) {
+                        console.error('Goal form elements not found');
+                        return;
+                    }
+                    
+                    // Reset form
+                    goalForm.reset();
+                    
+                    // Set form mode to add
+                    goalForm.dataset.mode = 'add';
+                    goalForm.dataset.goalId = '';
+                    
+                    // Update form title and button text
+                    goalFormTitle.textContent = 'Add New Goal';
+                    goalBtn.textContent = 'Add Goal';
+                    
+                    // If we have current activity, pre-select it
+                    const currentActivity = window.goalsManager ? window.goalsManager.currentActivity : null;
+                    if (currentActivity) {
+                        const activityInput = document.getElementById('goal-activity');
+                        activityInput.value = currentActivity.name;
+                        activityInput.disabled = true;
+                    }
+                    
+                    // Set default period type
+                    const periodTypeSelect = document.getElementById('goal-period-type');
+                    periodTypeSelect.value = 'weekly';
+                    
+                    // Set default dates
+                    const today = new Date();
+                    const startDateInput = document.getElementById('goal-start-date');
+                    startDateInput.valueAsDate = today;
+                    
+                    const endDate = new Date();
+                    endDate.setDate(today.getDate() + 30); // 30 days from now
+                    
+                    const endDateInput = document.getElementById('goal-end-date');
+                    endDateInput.valueAsDate = endDate;
+                    
+                    // Show form by removing hidden class
+                    goalFormContainer.classList.remove('hidden');
+                    
+                    showResult(`
+                    <h3>Fix Applied!</h3>
+                    <p>A direct click handler has been applied to the Add Goal button.</p>
+                    <p>Try clicking the button in the main app now.</p>
+                    `);
+                };
+                
+                // Also fix the close/cancel buttons
+                const closeBtn = document.getElementById('goal-form-close');
+                const cancelBtn = document.getElementById('cancel-goal-btn');
+                
+                if (closeBtn) {
+                    closeBtn.onclick = function() {
+                        formContainer.classList.add('hidden');
+                    };
+                }
+                
+                if (cancelBtn) {
+                    cancelBtn.onclick = function() {
+                        formContainer.classList.add('hidden');
+                    };
+                }
+                
+                showResult(`
+                <h3>Fix Applied!</h3>
+                <p>Direct event handlers have been applied to the Add Goal, Close, and Cancel buttons.</p>
+                <p>Try clicking the Add Goal button in the main app now.</p>
+                `);
+            } catch (error) {
+                showResult(`ERROR: ${error.message}`, true);
+                console.error('Debug error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
