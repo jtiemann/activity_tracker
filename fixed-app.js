@@ -49,11 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize theme manager
     window.themeManager = new ThemeManager();
     
-    // Initialize goals manager
-    if (!window.goalsManager && window.GoalsManager) {
-        window.goalsManager = new GoalsManager();
-    }
-    
     // Check if user is already logged in (from localStorage)
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
@@ -88,12 +83,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Update goals for current activity
             if (window.goalsManager) {
-                console.log('Initializing goals for activity:', currentActivity.name);
                 window.goalsManager.init(currentActivity);
-            } else {
-                console.error('GoalsManager not available');
             }
-            
             loadLogs();
             loadStats();
             
@@ -225,10 +216,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Initialize goals for the first activity
                 if (window.goalsManager && currentActivity) {
-                    console.log('Initializing goals for first activity:', currentActivity.name);
                     window.goalsManager.init(currentActivity);
-                } else if (!window.goalsManager) {
-                    console.error('GoalsManager not available');
                 }
             }
         } catch (error) {
@@ -305,10 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Initialize goals for the new activity
             if (window.goalsManager && currentActivity) {
-                console.log('Initializing goals for new activity:', currentActivity.name);
                 window.goalsManager.init(currentActivity);
-            } else if (!window.goalsManager) {
-                console.error('GoalsManager not available');
             }
             
             // Reset button

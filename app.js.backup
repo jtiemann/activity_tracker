@@ -49,11 +49,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize theme manager
     window.themeManager = new ThemeManager();
     
-    // Initialize goals manager
-    if (!window.goalsManager && window.GoalsManager) {
-        window.goalsManager = new GoalsManager();
-    }
-    
     // Check if user is already logged in (from localStorage)
     const storedUser = localStorage.getItem('currentUser');
     if (storedUser) {
@@ -88,15 +83,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Update goals for current activity
             if (window.goalsManager) {
-                console.log('Initializing goals for activity:', currentActivity.name);
-                window.goalsManager.init(currentActivity);
-            } else {
-                console.error('GoalsManager not available');
-            }
-            
-            loadLogs();
+                window.goalsManager.updateActivity(currentActivity);
+            }loadLogs();
             loadStats();
-            
+                window.goalsManager.init(currentActivity);
             // Update chart activity if charts initialized
             if (window.activityCharts) {
                 window.activityCharts.updateActivity(currentActivity);
@@ -160,6 +150,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, currentUser.token);
             }
             
+            // Update auth manager 
+            if (window.authManager) {
+                window.authManager.setAuth({
+                    id: currentUser.user_id,
+                    username: currentUser.username,
+                    email: currentUser.email
+                }, currentUser.token);
+            }
+            
+            
             showApp();
             loadActivities();
         } catch (error) {
@@ -222,14 +222,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateUIForActivity(currentActivity);
                 loadLogs();
                 loadStats();
-                
-                // Initialize goals for the first activity
-                if (window.goalsManager && currentActivity) {
-                    console.log('Initializing goals for first activity:', currentActivity.name);
-                    window.goalsManager.init(currentActivity);
-                } else if (!window.goalsManager) {
-                    console.error('GoalsManager not available');
-                }
             }
         } catch (error) {
             console.error('Error loading activities:', error);
@@ -302,14 +294,6 @@ document.addEventListener('DOMContentLoaded', function() {
             // Reload logs and stats
             loadLogs();
             loadStats();
-            
-            // Initialize goals for the new activity
-            if (window.goalsManager && currentActivity) {
-                console.log('Initializing goals for new activity:', currentActivity.name);
-                window.goalsManager.init(currentActivity);
-            } else if (!window.goalsManager) {
-                console.error('GoalsManager not available');
-            }
             
             // Reset button
             saveActivityBtn.innerHTML = 'Save';

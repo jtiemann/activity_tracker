@@ -55,18 +55,31 @@ This document outlines the fixes implemented to address issues with the Activity
 - Implemented seven test cases covering critical functionality
 - Added a new npm script (`npm run test-api`) to easily run API tests
 
+### 7. Goals Display Duplication
+
+**Problem:** Goals were being displayed twice when switching between activities.
+
+**Solution:**
+- Fixed the activity change handler in `app.js` to only initialize goals once
+- Removed redundant call to `updateActivity()` which was causing duplicate rendering
+- Added proper goals initialization when activities are loaded initially
+- Added proper initialization when creating a new activity
+
 ## New Files Created
 
 1. `middleware/logger.js` - Enhanced API request/response logging
 2. `test-api.js` - API endpoint testing script
 3. `FIXES.md` - Documentation of fixes implemented
+4. `fixed-app.js` - Fixed version of app.js with goals display fix
+5. `README-GOAL-FIX.md` - Documentation of the goals display fix
+6. `apply-goal-fix.bat` - Script to apply the goals display fix
 
 ## Files Modified
 
-1. `app.js` - Added logger middleware, enhanced CORS settings
+1. `app.js` - Added logger middleware, enhanced CORS settings, fixed goals display
 2. `routes/index.js` - Added legacy login route
 3. `models/achievement.js` - Fixed date operation error
-4. `public/js/app.js` - Updated login endpoint path
+4. `public/js/app.js` - Updated login endpoint path, fixed goals initialization
 5. `update_db.sql` - Added activity_goals table creation
 6. `package.json` - Added test-api script and axios dependency
 

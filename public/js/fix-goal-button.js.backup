@@ -3,44 +3,6 @@
   // Function to run when the page loads
   function initGoalButton() {
     console.log('Setting up direct goal button handlers');
-    
-    // First ensure the GoalsManager is instantiated
-    if (!window.goalsManager && window.GoalsManager) {
-      console.log('Creating new GoalsManager instance');
-      window.goalsManager = new GoalsManager();
-      
-      // Get the current activity from the dropdown
-      const activityTypeSelect = document.getElementById('activity-type');
-      if (activityTypeSelect && activityTypeSelect.value) {
-        const selectedId = parseInt(activityTypeSelect.value);
-        
-        // Get the currentUser from localStorage
-        let currentUser = null;
-        const storedUser = localStorage.getItem('currentUser');
-        if (storedUser) {
-          currentUser = JSON.parse(storedUser);
-          
-          // Fetch the current activity
-          fetch(`/api/activities/${currentUser.user_id}`, {
-            headers: {
-              'Authorization': `Bearer ${currentUser.token}`
-            }
-          })
-          .then(response => response.json())
-          .then(activities => {
-            const activity = activities.find(a => a.activity_type_id === selectedId);
-            if (activity) {
-              console.log('Initializing goals for current activity:', activity.name);
-              window.goalsManager.init(activity);
-            }
-          })
-          .catch(error => {
-            console.error('Error fetching activities:', error);
-          });
-        }
-      }
-    }
-    
     setupAddGoalButton();
     setupCloseButtons();
   }
