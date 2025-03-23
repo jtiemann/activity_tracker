@@ -1,36 +1,44 @@
 @echo off
-echo Applying Activity Tracker goals display fix...
+echo =============================================
+echo Activity Tracker - Goals Functionality Fix
+echo =============================================
 echo.
 
-REM Create backup if it doesn't exist
-if not exist app.js.backup (
-  echo Creating backup of original app.js...
-  copy public\js\app.js app.js.backup
-  echo Backup created as app.js.backup
-  echo.
-)
+REM Create a timestamped backup directory
+set TIMESTAMP=%date:~10,4%-%date:~4,2%-%date:~7,2%T%time:~0,2%-%time:~3,2%-%time:~6,2%.%time:~9,2%
+set TIMESTAMP=%TIMESTAMP: =0%
+set BACKUP_DIR=backup-%TIMESTAMP%
 
-REM Create backup of fix-goal-button.js
-echo Creating backup of fix-goal-button.js...
-if exist public\js\fix-goal-button.js (
-  copy public\js\fix-goal-button.js public\js\fix-goal-button.js.backup
-  echo Backup created as fix-goal-button.js.backup
-  echo.
-)
+echo Creating backup directory: %BACKUP_DIR%
+mkdir %BACKUP_DIR%
 
-echo Applying fixed app.js with goals initialization...
-copy fixed-goals-app.js public\js\app.js
-
-echo Applying fixed goal button handler...
-copy fixed-goal-button.js public\js\fix-goal-button.js
-
+REM Backup existing files
+echo Backing up existing files...
+copy "public\js\app.js" "%BACKUP_DIR%\app.js.backup"
+copy "public\js\fix-goal-button.js" "%BACKUP_DIR%\fix-goal-button.js.backup"
+copy "public\js\fix-goal-form.js" "%BACKUP_DIR%\fix-goal-form.js.backup"
+echo Backup complete.
 echo.
-echo Fix applied successfully!
-echo The goals display issue has been fixed.
-echo Goals should now display properly in the application.
+
+REM Copy the new combined fix file to the public/js directory
+echo Applying goals functionality fix...
+copy "goal-functionality-fix.js" "public\js\goals-fix.js"
+echo Fix applied successfully.
 echo.
-echo If you need to restore the original versions, run:
-echo   copy app.js.backup public\js\app.js
-echo   copy public\js\fix-goal-button.js.backup public\js\fix-goal-button.js
+
+REM Update the main HTML file to include the new script
+echo Updating HTML to include the new script...
+powershell -Command "(Get-Content public\index.html) -replace '</body>', '<script src=\"js/goals-fix.js\"></script></body>' | Set-Content public\index.html"
+echo HTML updated successfully.
 echo.
-echo Please reload your application to see the changes.
+
+echo =============================================
+echo Fix installation complete!
+echo =============================================
+echo.
+echo Please reload the application in your browser to apply the changes.
+echo.
+echo If you encounter any issues, you can restore the original files from:
+echo %CD%\%BACKUP_DIR%
+echo.
+pause
