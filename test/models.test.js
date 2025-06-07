@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const Activity = require('../models/activity');
 const Log = require('../models/log');
+const Goal = require('../models/goal');
 const db = require('../models/db');
 
 // Mock the database responses
@@ -52,6 +53,82 @@ describe('User Model', () => {
       ['testuser']
     );
     expect(user).toHaveProperty('password_hash');
+  });
+});
+
+describe('Goal Model', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+
+    db.query.mockImplementation((text, params) => {
+      if (text.includes('FROM activity_goals') && text.includes('WHERE g.user_id = $1') && !text.includes('AND g.activity_type_id = $2')) {
+        return {
+          rows: [
+            { goal_id: 1, user_id: params[0], activity_type_id: 1, target_count: 10, period_type: 'daily', start_date: new Date('2024-01-01'), end_date: new Date('2024-01-31'), activity_name: 'Run', unit: 'miles' },
+            { goal_id: 2, user_id: params[0], activity_type_id: 2, target_count: 20, period_type: 'weekly', start_date: new Date('2024-02-01'), end_date: new Date('2024-02-28'), activity_name: 'Swim', unit: 'laps' }
+          ]
+        };
+      }
+
+      if (text.includes('FROM activity_goals') && text.includes('WHERE g.user_id = $1 AND g.activity_type_id = $2')) {
+        return {
+          rows: [
+            { goal_id: 3, user_id: params[0], activity_type_id: params[1], target_count: 15, period_type: 'weekly', start_date: new Date('2024-03-01'), end_date: new Date('2024-03-31'), activity_name: 'Swim', unit: 'laps' }
+          ]
+        };
+      }
+
+      if (text.includes('WHERE g.goal_id = $1')) {
+        return {
+          rows: [
+            { goal_id: params[0], user_id: 1, activity_type_id: 1, target_count: 100, period_type: 'daily', start_date: new Date('2024-01-01'), end_date: new Date('2024-01-31'), activity_name: 'Run', unit: 'miles' }
+          ]
+        };
+      }
+
+      if (text.includes('COALESCE(SUM(count), 0) as total')) {
+        return { rows: [{ total: 40 }] };
+      }
+
+      return { rows: [] };
+    });
+  });
+
+  test('getAllForUser returns goals for a user', async () => {
+    const goals = await Goal.getAllForUser(1);
+
+    expect(db.query).toHaveBeenCalledWith(
+      expect.stringContaining('FROM activity_goals'),
+      [1]
+    );
+    expect(goals).toHaveLength(2);
+    expect(goals[0]).toHaveProperty('goal_id', 1);
+  });
+
+  test('getForActivity returns goals for a specific activity', async () => {
+    const goals = await Goal.getForActivity(1, 2);
+
+    expect(db.query).toHaveBeenCalledWith(
+      expect.stringContaining('AND g.activity_type_id = $2'),
+      [1, 2]
+    );
+    expect(goals).toHaveLength(1);
+    expect(goals[0]).toHaveProperty('activity_type_id', 2);
+  });
+
+  test('getProgress calculates progress for a goal', async () => {
+    const progress = await Goal.getProgress(1);
+
+    expect(db.query).toHaveBeenCalledTimes(2);
+    expect(progress).toMatchObject({
+      currentCount: 40,
+      targetCount: 100,
+      progressPercent: 40,
+      remaining: 60,
+      completed: false
+    });
+    expect(progress.startDate).toBeInstanceOf(Date);
+    expect(progress.endDate).toBeInstanceOf(Date);
   });
 });
 
