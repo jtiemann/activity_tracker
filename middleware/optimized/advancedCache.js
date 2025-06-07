@@ -91,9 +91,12 @@ function cacheMiddleware(options = {}) {
     // Override send function
     res.json = function(body) {
       // Generate ETag if enabled
-      const etag = useEtag ? 
-        `"${require('crypto').createHash('md5').update(JSON.stringify(body)).digest('hex')}"` : 
-        null;
+      const etag = useEtag
+        ? `"${require('crypto')
+            .createHash('md5')
+            .update(JSON.stringify(body))
+            .digest('hex')}"`
+        : null;
       
       // Store the response in cache
       cache.set(cacheKey, { 
