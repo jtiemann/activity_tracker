@@ -99,7 +99,7 @@ This creates a user with:
 - Username: jtiemann
 - Password: kermit
 
-For more options, see `USER_SETUP_INSTRUCTIONS.md`.
+For more options, see `user_setup_instructions.md`.
 
 ### 6. Start the Application
 
@@ -186,7 +186,7 @@ Additional documentation:
 - `FIXES.md` - Details about fixes implemented
 - `IMPROVEMENTS.md` - Information about feature enhancements
 - `TEST_INSTRUCTIONS.md` - Detailed testing instructions
-- `USER_SETUP_INSTRUCTIONS.md` - How to add users with secure passwords
+- `user_setup_instructions.md` - How to add users with secure passwords
 
 ## Contributing
 
