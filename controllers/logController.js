@@ -2,6 +2,7 @@ const Log = require('../models/log');
 const Activity = require('../models/activity');
 const Achievement = require('../models/achievement');
 const { clearUserCache, clearEndpointCache } = require('../middleware/cache');
+const User = require('../models/user');
 
 /**
  * Get logs for a specific activity
